@@ -1,0 +1,53 @@
+@function px2vw($px) {
+  @return $px / 1920 * 100 + vw;
+}
+
+@function px2vh($px) {
+  @return $px / 1080 * 100 + vh;
+}
+
+.app {
+  background-color: rgb(243, 211, 104);
+  height: px2vh(1080);
+  .header {
+    display: flex;
+    height: px2vh(70);
+    width: 100vw;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 10px;
+    .logo {
+      color: red;
+      margin-left: 40px;
+      font-weight: bolder;
+      font-size: 16px;
+    }
+    .nav {
+      position: relative;
+      text-decoration: none;
+      display: flex;
+      width: px2vw(600);
+      font-size: 22px;
+      justify-content: space-between;
+      .login-img {
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        top: 50%;
+        right: 50px;
+        transform: translateY(-50%);
+      }
+    }
+    .search {
+      margin-right: 40px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+  .main {
+  }
+  .footer {
+  }
+}

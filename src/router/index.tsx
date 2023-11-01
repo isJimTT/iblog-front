@@ -1,11 +1,11 @@
 import React, { lazy } from 'react'
 import { RouteObject } from 'react-router-dom'
 
-const Home = lazy(() => import('@/views/BlogHome'))
-const Article = lazy(() => import('@/views/BlogArticle'))
-const About = lazy(() => import('@/views/BlogAbout'))
-const Resources = lazy(() => import('@/views/BlogResources'))
-const Login = lazy(() => import('@/views/BlogLogin'))
+const Home = lazy(() => import('@/views/Home'))
+const Article = lazy(() => import('@/views/Article'))
+const About = lazy(() => import('@/views/About'))
+const Resources = lazy(() => import('@/views/Resources'))
+const Login = lazy(() => import('@/views/Login'))
 
 import { Navigate } from 'react-router-dom'
 

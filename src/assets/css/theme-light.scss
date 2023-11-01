@@ -1,0 +1,19 @@
+$nav-font: #834086;
+$header-bg: #ffd500;
+$content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
+
+.dark {
+  background: $content-bg;
+  transition: background 0.8s ease-in-out;
+  .header {
+    background: $header-bg;
+    box-shadow: 0 3px 12px 2px $header-bg;
+    transition:
+      background 0.8s ease-in-out,
+      box-shadow 1s ease-in-out;
+  }
+  .header .nav a {
+    color: $nav-font;
+    transition: color 0.5s ease-in-out;
+  }
+}
