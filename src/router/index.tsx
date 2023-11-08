@@ -29,10 +29,6 @@ const routes: RouteObject[] = [
   {
     path: '/resources',
     element: <Resources />
-  },
-  {
-    path: '/login',
-    element: <Login />
   }
 ]
 

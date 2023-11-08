@@ -6,3 +6,107 @@
   border-radius: 15px;
   background-color: #fff;
 }
+
+.active-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.home-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 8px;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  background-color: #c42a6b;
+  font-weight: bolder;
+}
+.home-article {
+  text-decoration: underline;
+}
+
+/**
+* Login
+*/
+.login-container {
+  position: relative;
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 30px;
+  color: black;
+  z-index: 999;
+  animation: moveIn 0.3s ease-in-out;
+  .login-span {
+    display: inline-block;
+    font-size: 18px;
+    margin: 10px 10px 10px 0;
+  }
+  .login-bottom {
+    display: flex;
+    justify-content: space-around;
+  }
+  .login-close,
+  .login-confirm {
+    display: inline-block;
+    width: 60px;
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
+    background-color: #38c58d;
+    border-radius: 5px;
+  }
+  .login-register {
+    display: flex;
+    justify-content: right;
+    text-decoration: underline;
+    font-size: 16px;
+  }
+  .login-close {
+    background-color: #c42a6b;
+  }
+  .login-upload {
+    position: absolute;
+    right: 50px;
+    top: 50px;
+    font-size: 16px;
+  }
+}
+.register-content {
+  font-size: 16px;
+}
+
+@keyframes moveIn {
+  0% {
+    opacity: 0;
+    top: 0;
+    left: 65%;
+    padding: 0;
+  }
+  100% {
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    padding: 30px;
+  }
+}
+.login-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
