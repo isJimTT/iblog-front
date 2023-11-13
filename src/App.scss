@@ -7,17 +7,18 @@
 }
 
 .app {
-  background-color: rgb(243, 211, 104);
   height: px2vh(1080);
   .header {
     display: flex;
     height: px2vh(70);
+    position: sticky;
     width: 100vw;
     margin: 0 auto;
     align-items: center;
     justify-content: space-between;
     background-color: #fff;
     border-radius: 10px;
+    z-index: 999 !important;
     .logo {
       color: red;
       margin-left: 40px;

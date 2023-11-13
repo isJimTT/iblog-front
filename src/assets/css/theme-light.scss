@@ -1,6 +1,6 @@
 $nav-font: #834086;
 $header-bg: #ffd500;
-$home-name: #55cca2;
+$home-name: #2fce96;
 $content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
 
 .dark {
@@ -17,8 +17,8 @@ $content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
     color: $nav-font;
     transition: color 0.5s ease-in-out;
   }
-  .home-name {
+  .font-logo {
     background-color: $home-name;
-    box-shadow: 0 3px 3px 1px $home-name;
+    // box-shadow: 0 3px 3px 1px $home-name;
   }
 }

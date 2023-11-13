@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { useRoutes, Link } from 'react-router-dom'
-import { ReactComponent as LoginDark } from './assets/fonts/loginDark.svg'
-import { ReactComponent as LoginLight } from './assets/fonts/loginLight.svg'
+import { ReactComponent as LoginDark } from './assets/fonts-icon/loginDark.svg'
+import { ReactComponent as LoginLight } from './assets/fonts-icon/loginLight.svg'
 import useAppSelector from '@/hooks/useAppSelector'
 import Login from './views/Login'
 import routes from './router'
@@ -14,6 +14,8 @@ function App() {
     reduxUserName: state.userRedux.name
   }))
   const changeTheme = () => {
+    console.log(11)
+
     theme === 'light' ? setTheme('dark') : setTheme('light')
   }
 
