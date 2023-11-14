@@ -4,37 +4,70 @@ import { ReactComponent as LoginDark } from './assets/fonts-icon/loginDark.svg'
 import { ReactComponent as LoginLight } from './assets/fonts-icon/loginLight.svg'
 import useAppSelector from '@/hooks/useAppSelector'
 import Login from './views/Login'
+import { useNavigate } from 'react-router-dom'
 import routes from './router'
 import './App.scss'
 
 function App() {
+  const navigate = useNavigate()
   const [theme, setTheme] = useState<string>('light')
+  const [activeLink, setActiveLink] = useState('/home')
   const [stayUserName, setUserName] = useState<string | any>()
   const { reduxUserName } = useAppSelector((state) => ({
     reduxUserName: state.userRedux.name
   }))
-  const changeTheme = () => {
-    console.log(11)
 
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link)
+  }
+  const changeTheme = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light')
+  }
+
+  const backHome = () => {
+    navigate('/home')
+    setActiveLink('/home')
   }
 
   useEffect(() => {
     setUserName(window.localStorage.getItem('userName'))
-    console.log(window.localStorage.getItem('userName'))
   }, [stayUserName])
 
   return (
     <div className={`app ${theme}`}>
       <header className="header">
-        <section className="logo">积木踢踢</section>
+        <section className="logo" onClick={() => backHome()}>
+          积木踢踢
+        </section>
         <section className="nav">
-          <Link to="/home" state={theme}>
+          <Link
+            to="/home"
+            className={activeLink === '/home' ? 'nav-active' : ''}
+            onClick={() => handleLinkClick('/home')}
+          >
             首页
           </Link>
-          <Link to="/article">文章</Link>
-          <Link to="/resources">资源</Link>
-          <Link to="/about">关于</Link>
+          <Link
+            to="/article"
+            className={activeLink === '/article' ? 'nav-active' : ''}
+            onClick={() => handleLinkClick('/article')}
+          >
+            文章
+          </Link>
+          <Link
+            to="/resources"
+            className={activeLink === '/resources' ? 'nav-active' : ''}
+            onClick={() => handleLinkClick('/resources')}
+          >
+            资源
+          </Link>
+          <Link
+            to="/about"
+            className={activeLink === '/about' ? 'nav-active' : ''}
+            onClick={() => handleLinkClick('/about')}
+          >
+            关于
+          </Link>
           <a>
             {theme === 'dark' ? (
               <LoginLight className="login-img" />

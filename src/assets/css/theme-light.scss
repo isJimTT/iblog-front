@@ -1,4 +1,5 @@
 $nav-font: #834086;
+$nav-font-active: #fff;
 $header-bg: #ffd500;
 $home-name: #2fce96;
 $content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
@@ -9,13 +10,20 @@ $content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
   .header {
     background: $header-bg;
     box-shadow: 0 3px 12px 2px $header-bg;
-    transition:
-      background 0.8s ease-in-out,
-      box-shadow 1s ease-in-out;
+    transition: all 0.8s ease-in-out;
   }
   .header .nav a {
     color: $nav-font;
-    transition: color 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+  }
+  .nav-active {
+    color: $nav-font-active;
+    background-color: $home-name;
+  }
+
+  .header .nav a:hover:not(:last-child) {
+    color: $nav-font;
+    background-color: $home-name;
   }
   .font-logo {
     background-color: $home-name;

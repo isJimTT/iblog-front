@@ -20,10 +20,36 @@
     border-radius: 10px;
     z-index: 999 !important;
     .logo {
-      color: red;
-      margin-left: 40px;
+      font-size: 20px;
       font-weight: bolder;
-      font-size: 16px;
+      margin-left: 20px;
+      cursor: pointer;
+      background: linear-gradient(
+        90deg,
+        #d16ba5,
+        #86a8e7,
+        #5ffbf1,
+        #ffeb3b,
+        #ff0000,
+        #4eff00,
+        #4b00f9,
+        #ffeb3b
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 1000% 1000%;
+      animation: rainbow 10s ease infinite;
+    }
+    @keyframes rainbow {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
     .nav {
       position: relative;
@@ -33,12 +59,16 @@
       font-size: 22px;
       justify-content: space-between;
       cursor: pointer;
+      a {
+        padding: 5px 20px;
+        border-radius: 10px;
+      }
       .login-img {
         width: 28px;
         height: 28px;
         position: absolute;
         top: 50%;
-        right: 50px;
+        right: 70px;
         transform: translateY(-50%);
       }
     }

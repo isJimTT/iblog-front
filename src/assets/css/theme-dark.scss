@@ -7,12 +7,20 @@ $content-bg: linear-gradient(45deg, #984cb1, #2e94b1, #59cfa1);
   background: $content-bg;
   .header {
     background: $header-bg;
-    transition: background 0.8s ease-in-out;
+    transition: all 0.8s ease-in-out;
     box-shadow: 0 1px 12px 2px $header-bg;
+    .nav-active {
+      color: $nav-font;
+      background-color: $home-name;
+    }
   }
   .header .nav a {
     color: $nav-font;
-    transition: color 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+  }
+  .header .nav a:hover:not(:last-child) {
+    color: $nav-font;
+    background-color: $home-name;
   }
   .font-logo {
     background-color: $home-name;

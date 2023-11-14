@@ -31,7 +31,7 @@ const Home: React.FC<IProps> = () => {
   const dataList: any[] = [
     {
       img: article1,
-      title: '测试1',
+      title: 'Html5新增标签总集',
       desc: '描述萨达萨达萨达萨达',
       time: '2023-10-11',
       keyWord1: 'Vue',
@@ -39,7 +39,7 @@ const Home: React.FC<IProps> = () => {
     },
     {
       img: article2,
-      title: '测试2',
+      title: 'React与Vue的区别详解',
       desc: '描述萨达萨达萨达萨达',
       time: '2023-10-11',
       keyWord1: 'Vue',
@@ -47,7 +47,23 @@ const Home: React.FC<IProps> = () => {
     },
     {
       img: article3,
-      title: '测试3',
+      title: 'React：由浅入深',
+      desc: '描述萨达萨达萨达萨达',
+      time: '2023-10-11',
+      keyWord1: 'Vue',
+      keyWord2: 'JS'
+    },
+    {
+      img: article2,
+      title: 'Echarts的优雅用法',
+      desc: '描述萨达萨达萨达萨达',
+      time: '2023-10-11',
+      keyWord1: 'Vue',
+      keyWord2: 'JS'
+    },
+    {
+      img: article3,
+      title: '原型链与作用域链',
       desc: '描述萨达萨达萨达萨达',
       time: '2023-10-11',
       keyWord1: 'Vue',
@@ -55,6 +71,14 @@ const Home: React.FC<IProps> = () => {
     }
   ]
   const category: any[] = [
+    'Vue',
+    'React',
+    'Echarts',
+    'Node.js',
+    '数据结构与算法',
+    '闭包',
+    '原型链与作用域链',
+    'Html',
     'Vue',
     'React',
     'Echarts',
@@ -87,7 +111,6 @@ const Home: React.FC<IProps> = () => {
     <>
       <ReactFullpage
         scrollingSpeed={700}
-        navigation={true}
         verticalCentered={false}
         credits={{
           enabled: false
