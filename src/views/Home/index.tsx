@@ -1,12 +1,12 @@
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import ReactFullpage from '@fullpage/react-fullpage'
 import '../index.scss'
 import avatar from '../../assets/img/avatar.png'
 import avatar2 from '../../assets/img/avatar2.jpg'
-import article1 from '../../assets/img/1.jpg'
-import article2 from '../../assets/img/3.jpg'
-import article3 from '../../assets/img/4.jpg'
-import ArticleItem from '@/components/ArticleItem'
+import TextLoop from 'react-text-loop'
+import { useNavigate } from 'react-router-dom'
+
+import { GetArticleListApi } from '@/api/article'
 import { ReactComponent as GitHub } from '../../assets/fonts-icon/github.svg'
 import { ReactComponent as QQ } from '../../assets/fonts-icon/qq.svg'
 import { ReactComponent as WeChat } from '../../assets/fonts-icon/wechat.svg'
@@ -22,63 +22,12 @@ interface IProps {
 }
 
 const Home: React.FC<IProps> = () => {
-  // const { theme } = useAppSelector((state) => ({
-  //   theme: state.themeRedux.curTheme
-  // }))
   const contentBgRef: any = useRef()
+  const navigate = useNavigate()
   const [isAvatarRotated, setIsAvatarRotated] = useState<boolean>(false)
   const [isAvatarSwitch, setIsAvatarSwitch] = useState<boolean>(false)
-  const dataList: any[] = [
-    {
-      img: article1,
-      title: 'Html5新增标签总集',
-      desc: '描述萨达萨达萨达萨达',
-      time: '2023-10-11',
-      keyWord1: 'Vue',
-      keyWord2: 'JS'
-    },
-    {
-      img: article2,
-      title: 'React与Vue的区别详解',
-      desc: '描述萨达萨达萨达萨达',
-      time: '2023-10-11',
-      keyWord1: 'Vue',
-      keyWord2: 'JS'
-    },
-    {
-      img: article3,
-      title: 'React：由浅入深',
-      desc: '描述萨达萨达萨达萨达',
-      time: '2023-10-11',
-      keyWord1: 'Vue',
-      keyWord2: 'JS'
-    },
-    {
-      img: article2,
-      title: 'Echarts的优雅用法',
-      desc: '描述萨达萨达萨达萨达',
-      time: '2023-10-11',
-      keyWord1: 'Vue',
-      keyWord2: 'JS'
-    },
-    {
-      img: article3,
-      title: '原型链与作用域链',
-      desc: '描述萨达萨达萨达萨达',
-      time: '2023-10-11',
-      keyWord1: 'Vue',
-      keyWord2: 'JS'
-    }
-  ]
+  const [dataList, setDataList] = useState<any[]>([])
   const category: any[] = [
-    'Vue',
-    'React',
-    'Echarts',
-    'Node.js',
-    '数据结构与算法',
-    '闭包',
-    '原型链与作用域链',
-    'Html',
     'Vue',
     'React',
     'Echarts',
@@ -88,6 +37,22 @@ const Home: React.FC<IProps> = () => {
     '原型链与作用域链',
     'Html'
   ]
+
+  const getArticleList = async () => {
+    try {
+      const { code, data } = await GetArticleListApi()
+      if (code === 200) {
+        setDataList(data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleArticle = (item: any) => {
+    const articleId = item.article_id
+    navigate(`/detail/${articleId}`)
+  }
 
   const onTitleMouseOver = () => {
     contentBgRef.current.style.background = '#222'
@@ -106,6 +71,10 @@ const Home: React.FC<IProps> = () => {
   const onAnimationEnd = () => {
     setIsAvatarRotated(false)
   }
+
+  useEffect(() => {
+    getArticleList()
+  }, [])
 
   return (
     <>
@@ -137,13 +106,36 @@ const Home: React.FC<IProps> = () => {
                 <div className="section" data-scroll-overflow="true">
                   <div className="home-content">
                     <div className="content-left">
-                      <ArticleItem dataList={dataList} />
+                      {dataList.map((item) => {
+                        return (
+                          <div
+                            className="item-wrap"
+                            key={item.title}
+                            onClick={() => handleArticle(item)}
+                          >
+                            <div className="item-left">
+                              <img src={item.cover} alt="" />
+                            </div>
+                            <div className="item-right">
+                              <div className="title">{item.title}</div>
+                              <div className="desc">{item.summary}</div>
+                              <div className="bottom">
+                                <div className="time">{item.cteat_time}</div>
+                                <div className="key-word">
+                                  {item.tags ? item.tags : ''}
+                                  {item.category ? item.category : ''}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
                     </div>
                     <div className="content-right">
                       <div className="user-info">
                         <div className="info-top">
                           <img
-                            src={isAvatarSwitch ? avatar : avatar2}
+                            src={isAvatarSwitch ? avatar2 : avatar}
                             className={` ${isAvatarRotated ? 'img-rotated' : ''}`}
                             onMouseEnter={() => onAvaMouseEnter()}
                             onAnimationEnd={() => onAnimationEnd()}

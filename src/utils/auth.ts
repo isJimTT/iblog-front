@@ -1,16 +1,14 @@
-import Cookies from 'js-cookie'
-
 // 设置token
 export const setToken = (token: string): void => {
-  Cookies.set('Authorization', token)
+  localStorage.setItem('Authorization', token)
 }
 
 // 获取token
-export const getToken = (): string | undefined => {
-  return Cookies.get('Authorization')
+export const getToken = (): string | null => {
+  return localStorage.getItem('Authorization')
 }
 
 // 清除token
 export const removeToken = (): void => {
-  Cookies.remove('Authorization')
+  localStorage.removeItem('Authorization')
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { LoginApi, RegisterApi } from '@/service/login'
+import { LoginApi, RegisterApi } from '@/api/login'
 import { message } from 'antd'
-import { setToken, getToken } from '@/utils/auth'
+import { setToken } from '@/utils/auth'
 import { useDispatch } from 'react-redux'
 import { nameChangeAction } from '@/store/modules/user'
 
