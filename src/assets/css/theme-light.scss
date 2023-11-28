@@ -1,9 +1,12 @@
-$nav-font: #834086;
+$nav-font: #fff;
 $nav-font-active: #fff;
 $header-bg: #ffd500;
-$home-name: #2fce96;
-$content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
+$home-name: #8b4384;
+$content-bg: linear-gradient(45deg, #fbc28d, #f36868, #834086);
 
+$home-content-font: #ff76ca;
+$home-content-bg: rgba(1, 1, 1, 0.8);
+$home-desc-font: rgba(255, 255, 255, 0.8) !important ;
 .dark {
   background: $content-bg;
   transition: background 0.8s ease-in-out;
@@ -28,5 +31,51 @@ $content-bg: linear-gradient(45deg, #fbeb8d, #f36868, #834086);
   .font-logo {
     background-color: $home-name;
     // box-shadow: 0 3px 3px 1px $home-name;
+  }
+
+  /**
+  home区域
+  */
+
+  .home-content {
+    color: $home-content-font;
+    transition: all ease 1s;
+    .item-wrap {
+      background-color: $home-content-bg;
+      transition: all ease 1s;
+      .desc {
+        color: $home-desc-font;
+        transition: all ease 1s;
+      }
+    }
+    .content-right {
+      .user-info,
+      .user-link,
+      .user-notice,
+      .article-label {
+        background-color: $home-content-bg;
+        transition: all ease 1s;
+      }
+      .notice-bottom {
+        color: $home-desc-font;
+        transition: all ease 1s;
+      }
+    }
+  }
+
+  /**
+  Detail区域
+  */
+
+  .detail-title {
+    color: #8b4384;
+  }
+  .detail-left {
+    background-color: rgba(1, 1, 1, 0.8) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  .detail-right {
+    background-color: rgba(1, 1, 1, 0.8) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
   }
 }

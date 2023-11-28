@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { LoginApi, RegisterApi } from '@/api/login'
-import { message } from 'antd'
+import { Popconfirm, message } from 'antd'
 import { setToken } from '@/utils/auth'
 import { useDispatch } from 'react-redux'
+import useAppSelector from '@/hooks/useAppSelector'
 import { nameChangeAction } from '@/store/modules/user'
+import { removeToken } from '@/utils/auth'
 
 interface ILoginParams {
   name?: string
@@ -17,6 +19,9 @@ function Login() {
   const [isLoginOpen, setLoginOpen] = useState<boolean>(false)
   const [isRegisterOpen, setRegisterOpen] = useState<boolean>(false)
   const [loginParams, setLoginParams] = useState<ILoginParams>()
+  const { reduxUserName } = useAppSelector((state) => ({
+    reduxUserName: state.userRedux.name
+  }))
   const [registerParams, setRegisterParams] = useState<ILoginParams>({
     name: '',
     password: '',
@@ -60,6 +65,20 @@ function Login() {
     }
   }
 
+  // 处理登录
+  const isLogin = () => {
+    if (!reduxUserName) {
+      setLoginOpen(true)
+    }
+  }
+
+  // 退出登录
+  const logOut = () => {
+    dispatch(nameChangeAction(null))
+    removeToken()
+    localStorage.removeItem('userName')
+  }
+
   // 验证手机号
   const validatePhoneNumber = (phoneNumber: string) => {
     const pattern = /^1[3-9]\d{9}$/
@@ -73,12 +92,21 @@ function Login() {
 
   return (
     <div>
-      <div
-        onClick={() => {
-          setLoginOpen(true)
-        }}
-      >
-        登录
+      <div onClick={isLogin}>
+        {!reduxUserName ? (
+          <div>登录</div>
+        ) : (
+          <Popconfirm
+            placement="bottom"
+            title="警告"
+            description="是否要退出登录"
+            okText="是"
+            cancelText="否"
+            onConfirm={logOut}
+          >
+            <div className="login-name">{reduxUserName}</div>
+          </Popconfirm>
+        )}
       </div>
       {isLoginOpen && (
         <div className="login-container">

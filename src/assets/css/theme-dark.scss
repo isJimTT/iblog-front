@@ -3,6 +3,10 @@ $header-bg: rgba(47, 195, 136, 0.8);
 $home-name: #c42a6a;
 $content-bg: linear-gradient(45deg, #984cb1, #2e94b1, #59cfa1);
 
+$home-content-font: #2e94b1;
+$home-content-bg: rgba(1, 1, 1, 0.8);
+$home-desc-font: rgba(255, 255, 255, 0.8) !important ;
+
 .light {
   background: $content-bg;
   .header {
@@ -25,5 +29,41 @@ $content-bg: linear-gradient(45deg, #984cb1, #2e94b1, #59cfa1);
   .font-logo {
     background-color: $home-name;
     // box-shadow: 0 3px 3px 1px $home-name;
+  }
+
+  /**
+  home区域
+  */
+
+  .home-content {
+    color: $home-content-font;
+    transition: all ease 1s;
+    .item-wrap {
+      background-color: $home-desc-font;
+      transition: all ease 1s;
+    }
+    .content-right {
+      .user-info,
+      .user-link,
+      .user-notice,
+      .article-label {
+        background-color: $home-desc-font;
+        transition: all ease 1s;
+      }
+    }
+  }
+
+  /**
+  Detail区域
+  */
+
+  .detail-title {
+    color: $home-name;
+  }
+  .detail-left {
+    background-color: $home-desc-font;
+  }
+  .detail-right {
+    background-color: $home-desc-font;
   }
 }

@@ -12,7 +12,6 @@
     display: flex;
     height: px2vh(70);
     position: sticky;
-    width: 100vw;
     margin: 0 auto;
     align-items: center;
     justify-content: space-between;
@@ -60,16 +59,13 @@
       justify-content: space-between;
       cursor: pointer;
       a {
+        display: flex;
         padding: 5px 20px;
         border-radius: 10px;
       }
       .login-img {
         width: 28px;
         height: 28px;
-        position: absolute;
-        top: 50%;
-        right: 70px;
-        transform: translateY(-50%);
       }
     }
     .search {
@@ -81,5 +77,9 @@
   .main {
   }
   .footer {
+    height: 100px;
+    background-color: #fff;
+    text-align: center;
+    line-height: 100px;
   }
 }

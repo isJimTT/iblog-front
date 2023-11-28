@@ -1,6 +1,14 @@
 @font-face {
   font-family: MyF;
-  src: url(../assets/font-family/AaJianHaoti.TTF);
+  src: url(../assets/font-family/jimfont.otf);
+}
+
+@function px2vw($px) {
+  @return $px / 1920 * 100 + vw;
+}
+
+@function px2vh($px) {
+  @return $px / 1080 * 100 + vh;
 }
 
 .section {
@@ -33,14 +41,53 @@
   border-radius: 15px;
   background-color: #fff;
 }
+
+.detail-title {
+  text-align: center;
+  height: 300px;
+  line-height: 300px;
+  color: #fff;
+  font-size: 24px;
+}
+
 .detail-content {
+  display: flex;
+  align-items: flex-start;
   width: 55vw;
-  height: calc(100vh - 150px);
   margin: 0 auto;
   margin-top: 30px;
-  padding: 10px;
-  border-radius: 15px;
-  background-color: #fff;
+  margin-bottom: 40px;
+  .detail-left {
+    flex: 75%;
+    min-height: 600px;
+    margin-right: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 15px;
+  }
+  .detail-right {
+    flex: 25%;
+    position: sticky;
+    padding: 10px;
+    top: 150px;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    .label-top {
+      display: flex;
+      border-bottom: 1px solid #ccc;
+      align-items: center;
+    }
+    .label-item {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      overflow: hidden;
+    }
+  }
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 .active-section {
@@ -49,6 +96,13 @@
   justify-content: center;
   color: #fff;
   cursor: pointer;
+}
+.home-footer {
+  margin-bottom: px2vh(70);
+  height: 100px;
+  background-color: #fff;
+  text-align: center;
+  line-height: 100px;
 }
 
 .home-name {
@@ -180,6 +234,11 @@
       }
       .desc {
         color: #666;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* 控制最多显示的行数 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .bottom {
         display: flex;
@@ -304,13 +363,14 @@
       .label-top {
         height: 40px;
         display: flex;
+        line-height: 40px;
         align-items: center;
-        border-bottom: 2px solid #eee;
+        border-bottom: 2px solid #ccc;
         font-weight: bold;
       }
       .label-bottom {
         .label-item {
-          background-color: #ccc;
+          background-color: #ddd;
           width: 90%;
           margin: 0 auto;
           margin-top: 10px;
@@ -318,6 +378,14 @@
           padding: 5px;
           padding-left: 10px;
           cursor: pointer;
+        }
+        .label-item-active {
+          background-color: #c42a6a;
+          color: #fff;
+        }
+        .label-item:hover {
+          background-color: #c42a6a;
+          color: #fff;
         }
         div:last-child {
           margin-bottom: 20px;
@@ -348,6 +416,12 @@
 /**
 * Login
 */
+
+.login-name {
+  color: #c42a6a;
+  font-weight: bolder;
+}
+
 .login-container {
   position: relative;
   width: 400px;
@@ -425,4 +499,13 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 998;
+}
+
+:where(.css-dev-only-do-not-override-2i2tap).ant-btn-primary {
+  background-color: #c42a6a;
+}
+:where(.css-dev-only-do-not-override-2i2tap).ant-btn-primary:not(:disabled):not(
+    .ant-btn-disabled
+  ):hover {
+  background-color: #c42a6a;
 }

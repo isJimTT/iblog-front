@@ -13,9 +13,6 @@ function App() {
   const [theme, setTheme] = useState<string>('light')
   const [activeLink, setActiveLink] = useState('/home')
   const [stayUserName, setUserName] = useState<string | any>()
-  const { reduxUserName } = useAppSelector((state) => ({
-    reduxUserName: state.userRedux.name
-  }))
 
   const handleLinkClick = (link: string) => {
     setActiveLink(link)
@@ -78,9 +75,6 @@ function App() {
           </a>
         </section>
         <section className="search" onClick={changeTheme}>
-          <span style={{ color: '#fff', fontWeight: 'bolder', marginRight: 10 }}>
-            {stayUserName !== reduxUserName || stayUserName ? stayUserName : reduxUserName}
-          </span>
           点我切换主题
         </section>
       </header>

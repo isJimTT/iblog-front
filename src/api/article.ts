@@ -1,15 +1,29 @@
 import request from '@/utils/request'
 
-export const GetArticleListApi = () => {
+interface IArticleListQuery {
+  category?: string
+}
+
+export const GetArticleListApi = (params: IArticleListQuery = {}) => {
   return request({
     url: '/article',
-    method: 'get'
+    method: 'get',
+    params: {
+      category: params.category
+    }
   })
 }
 
 export const GetArticleInfoApi = (articleId?: string) => {
   return request({
     url: '/article/detail/' + articleId,
+    method: 'get'
+  })
+}
+
+export const GetClassListApi = () => {
+  return request({
+    url: '/article/class',
     method: 'get'
   })
 }

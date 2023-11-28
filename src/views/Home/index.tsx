@@ -3,10 +3,10 @@ import ReactFullpage from '@fullpage/react-fullpage'
 import '../index.scss'
 import avatar from '../../assets/img/avatar.png'
 import avatar2 from '../../assets/img/avatar2.jpg'
-import TextLoop from 'react-text-loop'
 import { useNavigate } from 'react-router-dom'
-
-import { GetArticleListApi } from '@/api/article'
+import { RedoOutlined, EyeOutlined } from '@ant-design/icons'
+import { GetArticleListApi, GetClassListApi } from '@/api/article'
+import { ExistDateApi } from '@/api/exist'
 import { ReactComponent as GitHub } from '../../assets/fonts-icon/github.svg'
 import { ReactComponent as QQ } from '../../assets/fonts-icon/qq.svg'
 import { ReactComponent as WeChat } from '../../assets/fonts-icon/wechat.svg'
@@ -16,9 +16,12 @@ import { ReactComponent as Notice } from '../../assets/fonts-icon/notice.svg'
 import { ReactComponent as BackTop } from '../../assets/fonts-icon/backTop.svg'
 import { ReactComponent as Label } from '../../assets/fonts-icon/lable.svg'
 import { ReactComponent as DownArrow } from '../../assets/fonts-icon/bottomArr.svg'
-
 interface IProps {
   children?: ReactNode
+}
+
+interface IQueryList {
+  category?: string
 }
 
 const Home: React.FC<IProps> = () => {
@@ -27,22 +30,45 @@ const Home: React.FC<IProps> = () => {
   const [isAvatarRotated, setIsAvatarRotated] = useState<boolean>(false)
   const [isAvatarSwitch, setIsAvatarSwitch] = useState<boolean>(false)
   const [dataList, setDataList] = useState<any[]>([])
-  const category: any[] = [
-    'Vue',
-    'React',
-    'Echarts',
-    'Node.js',
-    '数据结构与算法',
-    '闭包',
-    '原型链与作用域链',
-    'Html'
-  ]
+  const [classList, setClassList] = useState<any[]>([])
+  const [queryList, setQueryList] = useState<IQueryList>({})
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [overflow, setOverflow] = useState<any>('')
+  const [existDate, setExistDate] = useState<string>('')
+  const [articleNum, setArticleNum] = useState<number>(0)
+
+  const getExistDate = async () => {
+    try {
+      const { code, data } = await ExistDateApi()
+      if (code === 200) {
+        setExistDate(data)
+        console.log(data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const getArticleList = async () => {
     try {
-      const { code, data } = await GetArticleListApi()
+      const { code, data, overflow } = await GetArticleListApi(queryList)
       if (code === 200) {
         setDataList(data)
+        if (overflow) {
+          setOverflow(overflow)
+          setArticleNum(data.length)
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getClassList = async () => {
+    try {
+      const { code, data } = await GetClassListApi()
+      if (code === 200) {
+        setClassList(data)
       }
     } catch (err) {
       console.log(err)
@@ -52,6 +78,24 @@ const Home: React.FC<IProps> = () => {
   const handleArticle = (item: any) => {
     const articleId = item.article_id
     navigate(`/detail/${articleId}`)
+  }
+
+  const handleCategory = async (category: string, itemId: number) => {
+    setQueryList({
+      ...queryList,
+      category: category
+    })
+    setCurrentIndex(itemId)
+    console.log(currentIndex)
+  }
+
+  const handleTimeFormat = (time: string) => {
+    return new Date(time).toLocaleString()
+  }
+
+  const resetCurrentClass = () => {
+    setCurrentIndex(0)
+    setQueryList({})
   }
 
   const onTitleMouseOver = () => {
@@ -74,7 +118,13 @@ const Home: React.FC<IProps> = () => {
 
   useEffect(() => {
     getArticleList()
+    getClassList()
+    getExistDate()
+    console.log(dataList)
   }, [])
+  useEffect(() => {
+    getArticleList()
+  }, [queryList])
 
   return (
     <>
@@ -103,36 +153,46 @@ const Home: React.FC<IProps> = () => {
                   </div>
                   <DownArrow className="down-arrow" onClick={() => fullpageApi.moveSectionDown()} />
                 </div>
-                <div className="section" data-scroll-overflow="true">
+                <div className="section" data-anchor="secondSection" data-scroll-overflow="true">
                   <div className="home-content">
                     <div className="content-left">
-                      {dataList.map((item) => {
-                        return (
-                          <div
-                            className="item-wrap"
-                            key={item.title}
-                            onClick={() => handleArticle(item)}
-                          >
-                            <div className="item-left">
-                              <img src={item.cover} alt="" />
-                            </div>
-                            <div className="item-right">
-                              <div className="title">{item.title}</div>
-                              <div className="desc">{item.summary}</div>
-                              <div className="bottom">
-                                <div className="time">{item.cteat_time}</div>
-                                <div className="key-word">
-                                  {item.tags ? item.tags : ''}
-                                  {item.category ? item.category : ''}
+                      {dataList
+                        ? dataList.map((item) => {
+                            return (
+                              <div
+                                className="item-wrap"
+                                key={item.title}
+                                onClick={() => handleArticle(item)}
+                              >
+                                <div className="item-left">
+                                  <img src={item.cover} alt="" />
+                                </div>
+                                <div className="item-right">
+                                  <div className="title">{item.title}</div>
+                                  <div className="desc">{item.summary}</div>
+                                  <div className="bottom">
+                                    <div className="time">
+                                      {handleTimeFormat(item.cteat_time) as any}
+                                    </div>
+                                    <div className="key-word">
+                                      🎈{item.tags ? item.tags : ''}
+                                      <span style={{ marginRight: 20 }}></span>
+                                      📃{item.category ? item.category : ''}
+                                    </div>
+                                    <div>
+                                      <EyeOutlined />
+                                      <span> </span>
+                                      {item.overflow}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        )
-                      })}
+                            )
+                          })
+                        : ''}
                     </div>
                     <div className="content-right">
-                      <div className="user-info">
+                      <div className="user-info ">
                         <div className="info-top">
                           <img
                             src={isAvatarSwitch ? avatar2 : avatar}
@@ -147,15 +207,15 @@ const Home: React.FC<IProps> = () => {
                         <div className="info-bottom">
                           <div className="bottom-item">
                             <div>文章</div>
-                            <div>50</div>
+                            <div>{articleNum}</div>
                           </div>
                           <div className="bottom-item">
-                            <div>标签</div>
-                            <div>22</div>
+                            <div>分类</div>
+                            <div>{classList.length}</div>
                           </div>
                           <div className="bottom-item">
                             <div>浏览量</div>
-                            <div>22</div>
+                            <div>{overflow}</div>
                           </div>
                         </div>
                       </div>
@@ -184,19 +244,31 @@ const Home: React.FC<IProps> = () => {
                       <div className="article-label">
                         <div className="label-top">
                           <Label style={{ width: 26, marginLeft: 20, marginRight: 5 }} />
-                          分类标签
+                          <span style={{ marginRight: 175 }}>分类</span>
+                          <RedoOutlined
+                            onClick={() => resetCurrentClass()}
+                            style={{ fontSize: 20, cursor: 'pointer' }}
+                          />
                         </div>
+                        <div></div>
                         <div className="label-bottom">
-                          {category.map((item) => {
+                          {classList.map((item) => {
                             return (
-                              <div key={item} className="label-item">
-                                {item}
+                              <div
+                                key={item.id}
+                                className={`label-item ${
+                                  currentIndex == item.id ? `label-item-active` : ''
+                                }`}
+                                onClick={() => handleCategory(item.class_name, item.id)}
+                              >
+                                {item.class_name}
                               </div>
                             )
                           })}
                         </div>
                       </div>
                     </div>
+
                     <div>
                       <BackTop
                         className="back-top"
@@ -206,6 +278,7 @@ const Home: React.FC<IProps> = () => {
                       />
                     </div>
                   </div>
+                  <div className="home-footer">了解事物的本质，才能获得真理的自由</div>
                 </div>
               </ReactFullpage.Wrapper>
             </>
