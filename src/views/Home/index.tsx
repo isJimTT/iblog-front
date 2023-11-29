@@ -1,12 +1,16 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import ReactFullpage from '@fullpage/react-fullpage'
+import { Space } from 'antd'
 import '../index.scss'
 import avatar from '../../assets/img/avatar.png'
 import avatar2 from '../../assets/img/avatar2.jpg'
 import { useNavigate } from 'react-router-dom'
+import TextLoop from 'react-text-loop'
 import { RedoOutlined, EyeOutlined } from '@ant-design/icons'
 import { GetArticleListApi, GetClassListApi } from '@/api/article'
 import { ExistDateApi } from '@/api/exist'
+import { NoticeListApi } from '@/api/notice'
+
 import { ReactComponent as GitHub } from '../../assets/fonts-icon/github.svg'
 import { ReactComponent as QQ } from '../../assets/fonts-icon/qq.svg'
 import { ReactComponent as WeChat } from '../../assets/fonts-icon/wechat.svg'
@@ -24,6 +28,11 @@ interface IQueryList {
   category?: string
 }
 
+interface ICurWeather {
+  text: string
+  temp: string
+}
+
 const Home: React.FC<IProps> = () => {
   const contentBgRef: any = useRef()
   const navigate = useNavigate()
@@ -31,11 +40,12 @@ const Home: React.FC<IProps> = () => {
   const [isAvatarSwitch, setIsAvatarSwitch] = useState<boolean>(false)
   const [dataList, setDataList] = useState<any[]>([])
   const [classList, setClassList] = useState<any[]>([])
-  const [queryList, setQueryList] = useState<IQueryList>({})
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [overflow, setOverflow] = useState<any>('')
   const [existDate, setExistDate] = useState<string>('')
   const [articleNum, setArticleNum] = useState<number>(0)
+  const [noticeList, setNoticeList] = useState<any>([])
+  const [curWether, setCurWether] = useState<ICurWeather>()
 
   const getExistDate = async () => {
     try {
@@ -49,9 +59,32 @@ const Home: React.FC<IProps> = () => {
     }
   }
 
-  const getArticleList = async () => {
+  const getWeather = () => {
+    const url = `https://devapi.qweather.com/v7/weather/now?location=101270101&key=a54c60d0218f471bb6f5d1afff1e7439`
+    fetch(url)
+      .then((response) => response.json())
+      .then((res) =>
+        setCurWether({
+          temp: res.now.temp,
+          text: res.now.text
+        })
+      )
+  }
+
+  const getNoticeList = async () => {
     try {
-      const { code, data, overflow } = await GetArticleListApi(queryList)
+      const { code, data } = await NoticeListApi()
+      if (code === 200) {
+        setNoticeList(data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getArticleList = async (query: any = undefined) => {
+    try {
+      const { code, data, overflow } = await GetArticleListApi(query)
       if (code === 200) {
         setDataList(data)
         if (overflow) {
@@ -81,12 +114,8 @@ const Home: React.FC<IProps> = () => {
   }
 
   const handleCategory = async (category: string, itemId: number) => {
-    setQueryList({
-      ...queryList,
-      category: category
-    })
+    getArticleList({ category })
     setCurrentIndex(itemId)
-    console.log(currentIndex)
   }
 
   const handleTimeFormat = (time: string) => {
@@ -95,7 +124,7 @@ const Home: React.FC<IProps> = () => {
 
   const resetCurrentClass = () => {
     setCurrentIndex(0)
-    setQueryList({})
+    getArticleList()
   }
 
   const onTitleMouseOver = () => {
@@ -120,11 +149,9 @@ const Home: React.FC<IProps> = () => {
     getArticleList()
     getClassList()
     getExistDate()
-    console.log(dataList)
+    getNoticeList()
+    getWeather()
   }, [])
-  useEffect(() => {
-    getArticleList()
-  }, [queryList])
 
   return (
     <>
@@ -236,10 +263,23 @@ const Home: React.FC<IProps> = () => {
 
                           <div>
                             <Position style={{ marginRight: 5, width: 20 }} />
-                            <div>成都</div>
+                            <div>
+                              <Space>
+                                <span> 成都</span>
+                                <span>{curWether?.text}</span>
+                                <span>{curWether?.temp}°C</span>
+                              </Space>
+                            </div>
                           </div>
                         </div>
-                        <div className="notice-bottom">网站还在速速开发中~</div>
+                        <div className="notice-bottom">
+                          <TextLoop noWrap={false} mask={true}>
+                            <span>{noticeList[0]?.content}</span>
+                            <span>{noticeList[1]?.content}</span>
+                            <span>{noticeList[2]?.content}</span>
+                            <span>{noticeList[3]?.content}</span>
+                          </TextLoop>
+                        </div>
                       </div>
                       <div className="article-label">
                         <div className="label-top">
@@ -265,6 +305,14 @@ const Home: React.FC<IProps> = () => {
                               </div>
                             )
                           })}
+                        </div>
+                      </div>
+                      <div className="website-exist">
+                        <div>
+                          🎈小破站已经存活了<span>{existDate}</span>天~🎈
+                        </div>
+                        <div>
+                          👉累计文章访问量<span>{overflow}</span>次~👈
                         </div>
                       </div>
                     </div>

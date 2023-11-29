@@ -1,9 +1,10 @@
 import '../index.scss'
 import { useParams } from 'react-router-dom'
 import { GetArticleInfoApi } from '@/api/article'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { ReadOutlined } from '@ant-design/icons'
-import { ReactComponent as Label } from '../../assets/fonts-icon/lable.svg'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/lioshi.css'
 
 const Detail = () => {
   const { articleId } = useParams()
@@ -24,12 +25,25 @@ const Detail = () => {
           newTitles.push(match[1])
         }
         setTitle(newTitles)
-        console.log(newTitles)
       }
     } catch (err) {
       console.log(err)
     }
   }
+  const highlightedHtml = useMemo(() => {
+    const parsedHtml = new DOMParser().parseFromString(html, 'text/html')
+    const codeBlocks = parsedHtml.querySelectorAll('pre')
+    codeBlocks.forEach((block) => {
+      try {
+        hljs.highlightBlock(block)
+      } catch (e) {
+        console.log(e)
+      }
+    })
+    console.log(parsedHtml.documentElement.innerHTML)
+
+    return parsedHtml.documentElement.innerHTML
+  }, [html])
 
   useEffect(() => {
     getArticleInfo()
@@ -40,7 +54,7 @@ const Detail = () => {
         <h1>{head}</h1>
       </div>
       <div className="detail-content">
-        <div className="detail-left" dangerouslySetInnerHTML={{ __html: html }}></div>
+        <div className="detail-left" dangerouslySetInnerHTML={{ __html: highlightedHtml }}></div>
         <div className="detail-right">
           <div className="label-top">
             <ReadOutlined style={{ marginRight: 10 }} /> 目录

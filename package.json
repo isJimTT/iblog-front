@@ -20,6 +20,7 @@
     "craco-less": "^2.1.0-alpha.0",
     "eslint-plugin-react": "^7.33.2",
     "fullpage.js": "^4.0.20",
+    "highlight.js": "^11.9.0",
     "js-cookie": "^3.0.5",
     "normalize.css": "^8.0.1",
     "react": "latest",
