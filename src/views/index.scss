@@ -2,6 +2,10 @@
   font-family: MyF;
   src: url(../assets/font-family/jimfont.otf);
 }
+@font-face {
+  font-family: MyF2;
+  src: url(../assets/font-family/AaJianHaoti.TTF);
+}
 
 @function px2vw($px) {
   @return $px / 1920 * 100 + vw;
@@ -14,9 +18,10 @@
 .section {
   transition: background ease 0.7s;
   .down-arrow {
-    position: absolute;
-    bottom: 100px;
-    width: 70px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+
     animation: arrow-jump 1s infinite;
   }
 }
@@ -91,11 +96,6 @@
 }
 
 .active-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  cursor: pointer;
 }
 .home-footer {
   margin-bottom: px2vh(70);
@@ -107,29 +107,23 @@
 
 .home-name {
   display: flex;
+  overflow: hidden;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 40px;
   margin-bottom: 10px;
   .font-logo {
+    height: 90px;
     overflow: hidden;
     white-space: nowrap;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    height: 80px;
     padding: 20px 40px;
     text-align: center;
-    font-size: 70px;
+    font-size: 80px;
     line-height: 80px;
-    color: #fff;
     font-family: MyF;
-    border-radius: 60px;
-    background-size: 400%;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.31), rgba(255, 255, 255, 0.1));
-    z-index: 1;
-    transform: translate(-50%, -50%);
+    color: #fff;
+    border-radius: 30px;
     transition: font-size ease 0.7s;
     animation: text-show 2s steps(10) forwards;
     @keyframes text-show {
@@ -137,59 +131,56 @@
         width: 0%;
       }
       100% {
-        width: 600px;
+        width: 700px;
       }
     }
   }
-}
-
-.font-logo:hover {
-  overflow: visible;
-  background-color: #fff;
-  font-size: 100px;
-  animation: flowing 8s linear infinite alternate; /*动画: 名称 时间 线性 循环 播放完回退播放*/
-}
-.font-logo:hover .section {
-  background-color: #111; /*动画: 名称 时间 线性 循环 播放完回退播放*/
-}
-@keyframes flowing {
-  0% {
-    background-position: 0%; /*修改背景定位，实现渐变色炫光*/
+  .font-logo::after {
+    content: '   ';
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 50px;
+    height: 32px;
+    border-bottom: 4px solid #fff;
+    animation: showInfinite 0.7s infinite both;
+    @keyframes showInfinite {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
   }
-  50% {
-    background-position: 100%;
+
+  .font-sign {
+    opacity: 0;
+    color: #fff;
+    font-size: 110px;
+    font-family: MyF2;
+    transition: all ease 2s;
   }
-  100% {
-    background-position: 0%;
+
+  .logo-bottom {
+    color: #222;
+    font-size: 22px;
+    margin-top: 300px;
+    font-weight: bolder;
+    font-family: MyF;
+    text-decoration: underline;
+    cursor: pointer;
+    animation: fadeIn ease 5s;
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
   }
-}
-
-.font-logo::before {
-  content: '';
-  position: absolute;
-  top: -7px;
-  left: -7px;
-  right: -7px;
-  bottom: -7px;
-  z-index: -1;
-  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
-  border-radius: 40px;
-  background-size: 400%;
-  filter: blur(20px);
-  opacity: 0;
-  transition: 1s;
-}
-
-.font-logo:hover::before {
-  filter: blur(20px);
-  opacity: 1;
-  animation: flowing 8s linear infinite;
-}
-
-.logo-bottom {
-  font-size: 30px;
-  font-family: MyF;
-  text-decoration: underline;
 }
 
 .home-content {

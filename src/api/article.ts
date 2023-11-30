@@ -2,6 +2,8 @@ import request from '@/utils/request'
 
 interface IArticleListQuery {
   category?: string
+  page?: number
+  pageSize?: number
 }
 
 export const GetArticleListApi = (params: IArticleListQuery = {}) => {
@@ -9,7 +11,9 @@ export const GetArticleListApi = (params: IArticleListQuery = {}) => {
     url: '/article',
     method: 'get',
     params: {
-      category: params.category
+      category: params.category,
+      page: params.page,
+      pageSize: params.pageSize
     }
   })
 }

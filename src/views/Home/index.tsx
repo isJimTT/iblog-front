@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import ReactFullpage from '@fullpage/react-fullpage'
-import { Space } from 'antd'
+import { Space, Pagination } from 'antd'
 import '../index.scss'
 import avatar from '../../assets/img/avatar.png'
 import avatar2 from '../../assets/img/avatar2.jpg'
@@ -10,6 +10,7 @@ import { RedoOutlined, EyeOutlined } from '@ant-design/icons'
 import { GetArticleListApi, GetClassListApi } from '@/api/article'
 import { ExistDateApi } from '@/api/exist'
 import { NoticeListApi } from '@/api/notice'
+import type { PaginationProps } from 'antd'
 
 import { ReactComponent as GitHub } from '../../assets/fonts-icon/github.svg'
 import { ReactComponent as QQ } from '../../assets/fonts-icon/qq.svg'
@@ -24,10 +25,6 @@ interface IProps {
   children?: ReactNode
 }
 
-interface IQueryList {
-  category?: string
-}
-
 interface ICurWeather {
   text: string
   temp: string
@@ -35,7 +32,11 @@ interface ICurWeather {
 
 const Home: React.FC<IProps> = () => {
   const contentBgRef: any = useRef()
+  const signRef: any = useRef()
   const navigate = useNavigate()
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [currentCategory, setCurrentCategory] = useState<string>('')
+  const [total, setTotal] = useState<number>(0)
   const [isAvatarRotated, setIsAvatarRotated] = useState<boolean>(false)
   const [isAvatarSwitch, setIsAvatarSwitch] = useState<boolean>(false)
   const [dataList, setDataList] = useState<any[]>([])
@@ -52,7 +53,6 @@ const Home: React.FC<IProps> = () => {
       const { code, data } = await ExistDateApi()
       if (code === 200) {
         setExistDate(data)
-        console.log(data)
       }
     } catch (err) {
       console.log(err)
@@ -84,13 +84,14 @@ const Home: React.FC<IProps> = () => {
 
   const getArticleList = async (query: any = undefined) => {
     try {
-      const { code, data, overflow } = await GetArticleListApi(query)
+      const { code, data, overflow, total } = await GetArticleListApi(query)
       if (code === 200) {
         setDataList(data)
         if (overflow) {
           setOverflow(overflow)
-          setArticleNum(data.length)
+          setArticleNum(total)
         }
+        setTotal(total)
       }
     } catch (err) {
       console.log(err)
@@ -114,7 +115,9 @@ const Home: React.FC<IProps> = () => {
   }
 
   const handleCategory = async (category: string, itemId: number) => {
-    getArticleList({ category })
+    setCurrentCategory(category)
+    setCurrentPage(1)
+    getArticleList({ category, page: 1 })
     setCurrentIndex(itemId)
   }
 
@@ -124,15 +127,22 @@ const Home: React.FC<IProps> = () => {
 
   const resetCurrentClass = () => {
     setCurrentIndex(0)
+    setCurrentPage(1)
     getArticleList()
   }
 
   const onTitleMouseOver = () => {
     contentBgRef.current.style.background = '#222'
+    signRef.current.style.opacity = 1
+    signRef.current.style.fontSize = '65px'
+    signRef.current.style.transform = 'scale(1)'
   }
 
   const onTitleMouseLeave = () => {
     contentBgRef.current.style.background = ''
+    signRef.current.style.opacity = 0
+    signRef.current.style.fontSize = '110px'
+    signRef.current.style.transform = 'scale(1.6)'
   }
 
   const onAvaMouseEnter = () => {
@@ -143,6 +153,11 @@ const Home: React.FC<IProps> = () => {
 
   const onAnimationEnd = () => {
     setIsAvatarRotated(false)
+  }
+
+  const onPageChange: PaginationProps['onChange'] = (page) => {
+    setCurrentPage(page)
+    getArticleList({ page, category: currentCategory })
   }
 
   useEffect(() => {
@@ -156,10 +171,11 @@ const Home: React.FC<IProps> = () => {
   return (
     <>
       <ReactFullpage
+        navigation={false}
         scrollingSpeed={700}
-        verticalCentered={false}
+        verticalCentered={true}
         credits={{
-          enabled: false
+          enabled: true
         }}
         render={({ state, fullpageApi }) => {
           return (
@@ -167,20 +183,23 @@ const Home: React.FC<IProps> = () => {
               <ReactFullpage.Wrapper>
                 <div ref={contentBgRef} className={`section active-section`}>
                   <div className="home-name">
-                    <a
+                    <div ref={signRef} className="font-sign">
+                      What is broken can be reforged
+                    </div>
+
+                    <div
                       className="font-logo"
                       onMouseEnter={() => onTitleMouseOver()}
                       onMouseLeave={() => onTitleMouseLeave()}
                     >
                       虽千万里，吾往矣
-                    </a>
-                    <span className="logo-bottom" onClick={() => fullpageApi.moveSectionDown()}>
-                      JimTT
-                    </span>
+                    </div>
+                    <div className="logo-bottom" onClick={() => fullpageApi.moveSectionDown()}>
+                      JimTT <span style={{ fontFamily: 'fantasy' }}>的开发之路</span>
+                    </div>
                   </div>
-                  <DownArrow className="down-arrow" onClick={() => fullpageApi.moveSectionDown()} />
                 </div>
-                <div className="section" data-anchor="secondSection" data-scroll-overflow="true">
+                <div className="section">
                   <div className="home-content">
                     <div className="content-left">
                       {dataList
@@ -217,6 +236,13 @@ const Home: React.FC<IProps> = () => {
                             )
                           })
                         : ''}
+                      <Pagination
+                        current={currentPage}
+                        hideOnSinglePage={true}
+                        pageSize={8}
+                        onChange={onPageChange}
+                        total={total}
+                      />
                     </div>
                     <div className="content-right">
                       <div className="user-info ">
@@ -340,5 +366,4 @@ const Home: React.FC<IProps> = () => {
 // Home.defaultProps = {
 //   name: 'jim'
 // }
-
 export default Home
