@@ -1,0 +1,28 @@
+.g-page {
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  margin: 10px 0;
+  font-size: 0;
+
+  li {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 15px;
+    height: 30px;
+    line-height: 28px;
+    margin: 0 10px 5px 0;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    border: 1px solid #e2e2e2;
+    cursor: pointer;
+    border-radius: 40px;
+  }
+}

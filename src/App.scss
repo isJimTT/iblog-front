@@ -69,9 +69,13 @@
       }
     }
     .search {
-      margin-right: 40px;
+      color: #fff;
+      margin-right: 20px;
       font-size: 16px;
       cursor: pointer;
+      .checkout {
+        margin-right: 30px;
+      }
     }
   }
   .main {

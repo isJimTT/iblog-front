@@ -4,7 +4,9 @@ import React from 'react'
 const Article = () => {
   return (
     <>
-      <div className="article-content">我是文字</div>
+      <div className="article-content">
+        <h1>Coding...</h1>
+      </div>
     </>
   )
 }

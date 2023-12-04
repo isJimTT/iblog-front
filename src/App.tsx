@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { useRoutes, Link } from 'react-router-dom'
 import { ReactComponent as LoginDark } from './assets/fonts-icon/loginDark.svg'
 import { ReactComponent as LoginLight } from './assets/fonts-icon/loginLight.svg'
+import { PartitionOutlined } from '@ant-design/icons'
 import useAppSelector from '@/hooks/useAppSelector'
 import Login from './views/Login'
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +25,10 @@ function App() {
   const backHome = () => {
     navigate('/home')
     setActiveLink('/home')
+  }
+
+  const navigateToAdmin = () => {
+    alert('admin暂不对外公开使用，敬请期待~')
   }
 
   useEffect(() => {
@@ -74,8 +79,14 @@ function App() {
             <Login />
           </a>
         </section>
-        <section className="search" onClick={changeTheme}>
-          点我切换主题
+        <section className="search">
+          <span onClick={changeTheme} className="checkout">
+            切换主题
+          </span>
+          <span onClick={navigateToAdmin}>
+            <PartitionOutlined style={{ fontSize: 30, verticalAlign: 'middle', marginRight: 5 }} />
+            <strong>后台</strong>
+          </span>
         </section>
       </header>
       <Suspense fallback="Loading">

@@ -4,6 +4,9 @@ import { Space, Pagination } from 'antd'
 import '../index.scss'
 import avatar from '../../assets/img/avatar.png'
 import avatar2 from '../../assets/img/avatar2.jpg'
+import qqImg from '../../assets/img/qq.png'
+import rewardImg from '../../assets/img/reward.png'
+
 import { useNavigate } from 'react-router-dom'
 import TextLoop from 'react-text-loop'
 import { RedoOutlined, EyeOutlined } from '@ant-design/icons'
@@ -11,6 +14,7 @@ import { GetArticleListApi, GetClassListApi } from '@/api/article'
 import { ExistDateApi } from '@/api/exist'
 import { NoticeListApi } from '@/api/notice'
 import type { PaginationProps } from 'antd'
+import PageComponent from '../../components/pagination'
 
 import { ReactComponent as GitHub } from '../../assets/fonts-icon/github.svg'
 import { ReactComponent as QQ } from '../../assets/fonts-icon/qq.svg'
@@ -160,6 +164,10 @@ const Home: React.FC<IProps> = () => {
     getArticleList({ page, category: currentCategory })
   }
 
+  const getCurrentPage = (currentPage: any) => {
+    console.log('currentPage', currentPage)
+  }
+
   useEffect(() => {
     getArticleList()
     getClassList()
@@ -221,7 +229,7 @@ const Home: React.FC<IProps> = () => {
                                       {handleTimeFormat(item.cteat_time) as any}
                                     </div>
                                     <div className="key-word">
-                                      🎈{item.tags ? item.tags : ''}
+                                      {item.tags ? item.tags : ''}
                                       <span style={{ marginRight: 20 }}></span>
                                       📃{item.category ? item.category : ''}
                                     </div>
@@ -236,13 +244,11 @@ const Home: React.FC<IProps> = () => {
                             )
                           })
                         : ''}
-                      <Pagination
-                        current={currentPage}
-                        hideOnSinglePage={true}
-                        pageSize={8}
-                        onChange={onPageChange}
-                        total={total}
-                      />
+                      <PageComponent
+                        pageCallbackFn={onPageChange}
+                        totalPage={Math.ceil(total / 8)}
+                        currentPage={currentPage}
+                      ></PageComponent>
                     </div>
                     <div className="content-right">
                       <div className="user-info ">
@@ -276,9 +282,17 @@ const Home: React.FC<IProps> = () => {
                         <a href="https://github.com/isJimTT" target="blank">
                           <GitHub />
                         </a>
-                        <QQ />
-                        <WeChat />
-                        <Personal />
+                        <span className="qq-wrap">
+                          <img src={qqImg} alt="" className="qq-img" />
+                          <QQ />
+                        </span>
+                        <span className="reward-wrap">
+                          <img src={rewardImg} alt="" className="reward-img" />
+                          <WeChat />
+                        </span>
+                        <span>
+                          <Personal />
+                        </span>
                       </div>
                       <div className="user-notice">
                         <div className="notice-top">

@@ -39,12 +39,16 @@
 }
 
 .article-content {
-  width: 55vw;
-  height: calc(100vh - 150px);
-  margin: 0 auto;
-  margin-top: 30px;
-  border-radius: 15px;
-  background-color: #fff;
+  text-align: center;
+  height: 100vh;
+}
+.about-content {
+  text-align: center;
+  height: 100vh;
+}
+.resources-content {
+  text-align: center;
+  height: 100vh;
 }
 
 .detail-title {
@@ -192,6 +196,8 @@
   .content-left {
     flex: 72%;
     height: 100%;
+    .page-comp {
+    }
   }
   .item-wrap {
     display: flex;
@@ -303,6 +309,7 @@
       }
     }
     .user-link {
+      position: relative;
       transition: transform 0.3s ease-in-out;
       display: flex;
       justify-content: space-evenly;
@@ -313,6 +320,19 @@
       border-radius: 20px;
       background-color: #fff;
       cursor: pointer;
+      .qq-wrap:hover .qq-img {
+        display: block;
+      }
+      .reward-wrap:hover .reward-img {
+        display: block;
+      }
+      img {
+        display: none;
+        position: absolute;
+        width: 120px;
+        height: 140px;
+        top: -130px;
+      }
     }
     .user-notice {
       transition: transform 0.3s ease-in-out;
@@ -377,14 +397,7 @@
           padding-left: 10px;
           cursor: pointer;
         }
-        .label-item-active {
-          background-color: #c42a6a;
-          color: #fff;
-        }
-        .label-item:hover {
-          background-color: #c42a6a;
-          color: #fff;
-        }
+
         div:last-child {
           margin-bottom: 20px;
         }
